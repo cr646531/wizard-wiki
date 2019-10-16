@@ -15,7 +15,7 @@ const Post = conn.define('post', {
     content: Sequelize.TEXT,
     upvotes: { 
         type: Sequelize.INTEGER, 
-        defaultValue: 0 
+        defaultValue: 1
     }
 });
 
