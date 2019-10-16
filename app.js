@@ -1,21 +1,26 @@
+//set up app
 const express = require("express");
 const app = express();
 
+//import router
 const routes = require('./routes/posts');
 app.use('/posts', routes);
 
+//import middleware
 const morgan = require("morgan");
 app.use(morgan('dev'));
 
+//set up static routing
 app.use(express.static(__dirname + "/public"));
 
-// parses url-encoded bodies
+//parses url-encoded bodies
 app.use(express.urlencoded({ extended: false }));
 
+//import body-parser
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded());
 
-
+//import User model, Post model, and syncAndSeed function
 const { syncAndSeed, User, Post } = require('./db');
 
 syncAndSeed();
@@ -48,13 +53,9 @@ app.post("/add", async (req, res, nex) => {
 
   let post = await Post.create({ title: title, content: req.body.content });
   
-  let user = await User.findOne({ where: { name: name }});
+  let user = await User.findOrCreate({ where: { name: name }});
 
-  if(!user){
-      user = User.create({ name: name })
-  }
-
-  post.setAuthor(user);
+  post.setAuthor(user[0]);
   res.redirect("/");
   
 });
