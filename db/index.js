@@ -2,14 +2,21 @@ const Sequelize = require('sequelize');
 const conn = new Sequelize(process.env.DATABASE_URL, { logging:false });
 
 const User = conn.define('user', {
-    name: Sequelize.STRING
+    name: {
+        type: Sequelize.STRING
+    }
 });
+
 const Post = conn.define('post', {
-    title: Sequelize.STRING,
-    content: Sequelize.TEXT
-});
-const Upvote = conn.define('upvote', {
-    number: Sequelize.INTEGER
+    title: {
+        type: Sequelize.STRING,
+        defaultValue: 'Untitled'
+    },
+    content: Sequelize.TEXT,
+    upvotes: { 
+        type: Sequelize.INTEGER, 
+        defaultValue: 0 
+    }
 });
 
 User.hasMany(Post);
@@ -21,6 +28,7 @@ const syncAndSeed = async () => {
     .then(() => {
         let alice, bobby, catherine, dean, fianto, untransfiguration, cracking, ask, pragmatic, complete, ordinary, muggle, conserving, could, show, doYou, mailing, how;
         return Promise.all([
+            User.create({ name: 'Anonymous' }),
             User.create({ name: 'Alice' }),
             User.create({ name: 'Bobby' }),
             User.create({ name: 'Catherine' }),
@@ -67,12 +75,8 @@ const syncAndSeed = async () => {
     })
 };
 
-
-
-
 module.exports = {
     User,
     Post,
-    Upvote,
     syncAndSeed
 };

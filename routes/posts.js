@@ -6,7 +6,10 @@ const addPost = require("../views/addPost");
 const postDetails = require("../views/postDetails");
 const postList = require("../views/postList");
 
-const { User, Post, Upvote } = require("../db");
+const { User, Post } = require("../db");
+
+const bodyParser = require('body-parser');
+router.use(bodyParser.urlencoded());
 
 
 router.get("/", async (req, res, next) => {
@@ -20,16 +23,20 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/:id", async (req, res, next) => {
-    post = await Post.findOne({
-        where: {
-            id: req.params.id
-        },
-        include: [{
-            model: User,
-            as: 'author'
-        }]
-    })
-    res.send(postDetails(post));
+    if(req.params.id === 'new'){
+        res.send(addPost());
+    } else {
+        post = await Post.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: [{
+                model: User,
+                as: 'author'
+            }]
+        })
+        res.send(postDetails(post));
+    }
 });
 
 

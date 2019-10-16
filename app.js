@@ -12,13 +12,51 @@ app.use(express.static(__dirname + "/public"));
 // parses url-encoded bodies
 app.use(express.urlencoded({ extended: false }));
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded());
 
-const { syncAndSeed } = require('./db');
+
+const { syncAndSeed, User, Post } = require('./db');
 
 syncAndSeed();
 
 app.get("/", (req, res) => {
     res.redirect("/posts");
+});
+
+const addPost = require('./views/addPost');
+
+app.get("/add", (req, res) => {
+    res.send(addPost());
+});
+
+app.post("/add", async (req, res, nex) => {
+
+  let title, name;
+
+  if(!req.body.title){
+      title = 'Untitled';
+  } else {
+      title = req.body.title;
+  }
+
+  if(!req.body.name){
+      name = 'Anonymous';
+  } else {
+      name = req.body.name;
+  }
+
+  let post = await Post.create({ title: title, content: req.body.content });
+  
+  let user = await User.findOne({ where: { name: name }});
+
+  if(!user){
+      user = User.create({ name: name })
+  }
+
+  post.setAuthor(user);
+  res.redirect("/");
+  
 });
 
 

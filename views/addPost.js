@@ -9,13 +9,13 @@ const addPost = () => {
         <body>
             <div class="news-list">
                 <header><img src="/logo.png"/>Wizard News</header>
-                <form method="post" action="/posts">
-                <label for="name">Author</label>
-                <input type="text" name="name" />
-                <label for="title">Title</label>
-                <input type="text" name="title" />
-                <textarea name="content"></textarea>
-                <button type="submit">Submit</button>
+                <form method="POST" action="/add">
+                    <label for="name">Author</label>
+                    <input type="text" name="name" />
+                    <label for="title">Title</label>
+                    <input type="text-area" name="title" />
+                    <textarea name="content" required></textarea>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
         </body>
