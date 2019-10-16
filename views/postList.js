@@ -17,7 +17,7 @@ const postList = (posts, users) => {
             <a href="/posts/${post.id}">${post.title} </a><small>(by ${post.author.name})</small>
           </p>
           <small class="news-info">
-            ${post.upvotes} upvotes | ${timeAgo(post.date)}
+            ${post.upvotes} upvotes }
           </small>
           <br />
         </div>`
