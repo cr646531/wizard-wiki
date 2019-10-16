@@ -1,21 +1,24 @@
 {
-  "name": "wizardnews",
+  "name": "wizard-wiki",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "DATABASE_URL=postgres://localhost/wnews nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.14.7"
+    "nodemon": "^1.19.3"
   },
   "dependencies": {
     "express": "^4.16.2",
     "html-template-tag": "^1.0.0",
-    "morgan": "^1.9.0",
-    "node-time-ago": "^1.0.0"
+    "morgan": "^1.9.1",
+    "node-time-ago": "^1.0.0",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.19.6"
   }
 }

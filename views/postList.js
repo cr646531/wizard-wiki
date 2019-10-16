@@ -1,7 +1,7 @@
-const timeAgo = require("node-time-ago");
-const html = require("html-template-tag");
+const postList = (posts, users) => {
 
-module.exports = posts => html`<!DOCTYPE html>
+  return `
+  <!DOCTYPE html>
   <html>
   <head>
     <title>Wizard News</title>
@@ -10,18 +10,22 @@ module.exports = posts => html`<!DOCTYPE html>
   <body>
     <div class="news-list">
       <header><img src="/logo.png"/>Wizard News</header>
-      ${posts.map(post => html`
+      ${posts.map(post => `
         <div class='news-item'>
           <p>
             <span class="news-position">${post.id}. ▲</span>
-            <a href="/posts/${post.id}">${post.title}</a>
-            <small>(by ${post.name})</small>
+            <a href="/posts/${post.id}">${post.title} </a><small>(by ${post.author.name})</small>
           </p>
           <small class="news-info">
             ${post.upvotes} upvotes | ${timeAgo(post.date)}
           </small>
+          <br />
         </div>`
-      )}
+      ).join('')}
     </div>
   </body>
-  </html>`;
+  </html>
+  `;
+}
+
+module.exports = postList;
